@@ -8,17 +8,20 @@ from flask import Blueprint, jsonify, request
 from core.repositories.worker_pride import WorkerPrideRepository
 
 
-bp_pride = Blueprint('pride', __name__, url_prefix='/api/pride')
+bp_pride = Blueprint('pride', __name__, url_prefix='/api')
 class Pride(MethodView):
     
+    def __init__(self):
+        self.worker = WorkerPrideRepository()
+    
     def get(self, id=None):
-        query_string = dict(request.query_string) if request.query_string else None
+        args = dict(request.args) if request.args else {}
 
         try:
             if id is None:
-                response = self.worker.list(query_string)
+                response = self.worker.list(args=args)
             else:
-                response = self.worker.read(payload={'_id': id})
+                response = self.worker.read(args={'_id': id})
             return jsonify({'output': response['output']}), response['statusCode']
             
         except Exception:
@@ -64,6 +67,6 @@ class Pride(MethodView):
 
 
 view = Pride.as_view('pride')
-bp_pride.add_url_rule('/', view_func=view, methods=['GET'])
-bp_pride.add_url_rule('/<id>', view_func=view, methods=['GET'])
-bp_pride.add_url_rule('/create', view_func=view, methods=['POST'])
+bp_pride.add_url_rule('/pride/', view_func=view, methods=['GET'])
+bp_pride.add_url_rule('/pride/<id>/', view_func=view, methods=['GET', 'PUT'])
+bp_pride.add_url_rule('/pride/create/', view_func=view, methods=['POST'])

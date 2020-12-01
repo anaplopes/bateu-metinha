@@ -9,8 +9,18 @@ class WorkerPrideRepository:
         self.db = DbExecutionService(collection='pride')
 
 
-    def list(self, payload=None):
-        pride = self.db.find(params=payload)
+    def list(self, args=None):
+        if not args:
+            pride = self.db.find(params={'received': 0}, sort='date', limit=1)
+        else:
+            if 'received' in args:
+                args.update({'received': int(args['received'])})
+                
+            if 'date' in args:
+                dt = datetime.strptime(args['date'], "%Y-%m-%d")
+                args.update({'date': {'$lt': datetime.utcnow(), '$gte': dt}})
+            pride = self.db.find(params=args, sort='date')
+            
         return {
             'statusCode': 200,
             'output': {
@@ -22,8 +32,8 @@ class WorkerPrideRepository:
         }
 
 
-    def read(self, payload=None):
-        pride = self.db.find_one(params=payload)
+    def read(self, args=None):
+        pride = self.db.find_one(params=args)
         if not pride:
             return {
                 'statusCode': 404,
@@ -56,6 +66,7 @@ class WorkerPrideRepository:
             }
         
         payload['date'] = datetime.utcnow()
+        payload['received'] = 0
         self.db.insert_one(data_obj=payload)
         return {
             'statusCode': 201,

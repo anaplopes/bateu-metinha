@@ -9,8 +9,12 @@ class WorkerLogRepository:
         self.db = DbExecutionService(collection='log')
 
 
-    def list(self, payload=None):
-        logs = self.db.find(params=payload)
+    def list(self, args=None):
+        if 'date' in args:
+            dt = datetime.strptime(args['date'], "%Y-%m-%d")
+            args.update({'date': {'$lt': datetime.utcnow(), '$gte': dt}})
+        
+        logs = self.db.find(params=args, sort='date')
         return {
             'statusCode': 200,
             'output': {
@@ -22,8 +26,8 @@ class WorkerLogRepository:
         }
 
 
-    def read(self, payload=None):
-        log = self.db.find_one(params=payload)
+    def read(self, args=None):
+        log = self.db.find_one(params=args)
         if not log:
             return {
                 'statusCode': 404,

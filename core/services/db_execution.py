@@ -28,8 +28,7 @@ class DbExecutionService:
             raise TypeError('param must be a object')
         
         if '_id' in params:
-            _id = {'_id': ObjectId(id)}
-            params.update(_id)
+            params.update({'_id': ObjectId(params['_id'])})
         
         session = self.db.create_connection(self.collection)
         result = session.find_one(params)
@@ -38,17 +37,18 @@ class DbExecutionService:
         return self.__convert_to_string(result)
     
 
-    def find(self, params={}, select_coll=None, sort=None, sequence=1):
+    def find(self, params={}, select_coll=None, sort=None, order=1, limit=None):
         if not isinstance(params, dict):
             raise TypeError('param must be a object')
 
         if '_id' in params:
-            _id = {'_id': ObjectId(id)}
-            params.update(_id)
+            params.update({'_id': ObjectId(params['_id'])})
         
         session = self.db.create_connection(self.collection)
         if sort:
-            return list(map(self.__convert_to_string, session.find(params, select_coll).sort(sort, sequence)))
+            if limit:
+                return list(map(self.__convert_to_string, session.find(params, select_coll).sort(sort, order).limit(limit)))
+            return list(map(self.__convert_to_string, session.find(params, select_coll).sort(sort, order)))
         # return list(map(lambda row: {i: str(row[i]) if isinstance(row[i], ObjectId) else row[i] for i in row}, session.find(param)))
         return list(map(self.__convert_to_string, session.find(params, select_coll))) 
     
@@ -81,12 +81,10 @@ class DbExecutionService:
             raise TypeError('data must be a object')
         
         if '_id' in query_obj:
-            id_query = {'_id': ObjectId(id)}
-            query_obj.update(id_query)
-
+            query_obj.update({'_id': ObjectId(query_obj['_id'])})
+        
         if '_id' in data_obj:
-            id_data = {'_id': ObjectId(id)}
-            data_obj.update(id_data)
+            data_obj.update({'_id': ObjectId(data_obj['_id'])})
 
         session = self.db.create_connection(self.collection)
         return session.update(query_obj, { "$inc": data_obj }, upsert=True)
@@ -106,14 +104,12 @@ class DbExecutionService:
 
         if not isinstance(data_obj, dict):
             raise TypeError('data must be a object')
-
+        
         if '_id' in query_obj:
-            id_query = {'_id': ObjectId(id)}
-            query_obj.update(id_query)
-
+            query_obj.update({'_id': ObjectId(query_obj['_id'])})
+        
         if '_id' in data_obj:
-            id_data = {'_id': ObjectId(id)}
-            data_obj.update(id_data)
+            data_obj.update({'_id': ObjectId(data_obj['_id'])})
         
         session = self.db.create_connection(self.collection)
         return session.update_many(query_obj, { "$set": data_obj })
