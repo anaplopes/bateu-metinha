@@ -8,6 +8,7 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 class BaseConfig:
     """ Base configuration. """
+    
     SECRET_KEY = os.getenv('SECRET_KEY', '')
     DEBUG = False
     # SESSION_COOKIE_NAME = os.getenv('SESSION_COOKIE_NAME', '')
@@ -17,6 +18,7 @@ class BaseConfig:
 
 class DevelopmentConfig(BaseConfig):
     """ Development configuration. """
+    
     FLASK_ENV = 'development'
     DEBUG = True
     TESTING = True
@@ -25,6 +27,7 @@ class DevelopmentConfig(BaseConfig):
     
 class ProductionConfig(BaseConfig):
     """ Production configuration. """
+    
     FLASK_ENV = 'production'
     DEBUG = False
     TESTING = False

@@ -8,7 +8,7 @@ class DbConnectionService:
 
     def __init__(self):
         self.__mongo_db = os.getenv('MONGO_DB', '')
-        self.client = MongoClient(os.getenv('PROD_DATABASE_URI', ''))
+        self.client = MongoClient(os.getenv('DEV_DATABASE_URI', ''))
     
     def create_connection(self, collection):
         dbs = self.client.list_database_names()

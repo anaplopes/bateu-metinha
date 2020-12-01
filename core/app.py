@@ -18,5 +18,11 @@ def create_app():
     # controllers
     from core.controllers.status import bp_status
     app.register_blueprint(bp_status)
+    
+    from core.controllers.log import bp_log
+    app.register_blueprint(bp_log)
+    
+    from core.controllers.pride import bp_pride
+    app.register_blueprint(bp_pride)
 
     return app
