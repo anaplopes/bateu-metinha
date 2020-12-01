@@ -1,0 +1,11 @@
+{
+  "name": "api-bateu-metinha",
+  "version": "1.0.0",
+  "description": "api de gerenciamento de metas",
+  "engines": {
+    "python": ">=3.7",
+    "flask": ">=1.1.2"
+  },
+  "main": "core/app.py",
+  "author": "Ana Paula Lopes"
+}
