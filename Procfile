@@ -1,1 +1,1 @@
-web: gunicorn server:runServer()
+web: gunicorn "server:runServer()"
