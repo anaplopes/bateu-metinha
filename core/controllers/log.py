@@ -51,6 +51,6 @@ class Log(MethodView):
 
 
 view = Log.as_view('log')
-bp_log.add_url_rule('/log/', view_func=view, methods=['GET'])
-bp_log.add_url_rule('/log/<id>/', view_func=view, methods=['GET'])
-bp_log.add_url_rule('/log/create/', view_func=view, methods=['GET', 'POST'])
+bp_log.add_url_rule('/log', view_func=view, methods=['GET'])
+bp_log.add_url_rule('/log/<id>', view_func=view, methods=['GET'])
+bp_log.add_url_rule('/log/create', view_func=view, methods=['GET', 'POST'])
