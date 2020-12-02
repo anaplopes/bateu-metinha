@@ -14,11 +14,11 @@
 #     print("Gevent serve forever on", 5000)
 #     http_server.serve_forever()
 
-from core.app import create_app as app
+from core.app import create_app
 
-
+app = create_app()
 if __name__ == '__main__':
     ip = '0.0.0.0'
     port = 5000
     
-    app.run(host=ip, port=port, use_reloader=debug)
+    app.run(host=ip, port=port)
