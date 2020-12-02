@@ -11,11 +11,10 @@ class DbConnectionService:
         self.client = MongoClient(os.getenv('PROD_DATABASE_URI', ''))
     
     def create_connection(self, collection):
-        # dbs = self.client.list_database_names()
-        # if not self.__mongo_db in dbs:
-        #     raise Exception('Database does not exist.')
+        dbs = self.client.list_database_names()
+        if not self.__mongo_db in dbs:
+            raise Exception('Database does not exist.')
         
-        # db = self.client[self.__mongo_db]
-        # session = db[collection]
-        session = self.client[collection]
+        db = self.client[self.__mongo_db]
+        session = db[collection]
         return session
