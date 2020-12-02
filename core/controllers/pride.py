@@ -2,7 +2,6 @@
 import sys
 import json
 import traceback
-from datetime import datetime
 from flask.views import MethodView
 from flask import Blueprint, jsonify, request
 from core.repositories.worker_pride import WorkerPrideRepository

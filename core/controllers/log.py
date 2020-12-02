@@ -2,7 +2,6 @@
 import sys
 import json
 import traceback
-from datetime import datetime
 from flask.views import MethodView
 from flask import Blueprint, jsonify, request
 from core.repositories.worker_log import WorkerLogRepository
@@ -54,4 +53,4 @@ class Log(MethodView):
 view = Log.as_view('log')
 bp_log.add_url_rule('/log/', view_func=view, methods=['GET'])
 bp_log.add_url_rule('/log/<id>/', view_func=view, methods=['GET'])
-bp_log.add_url_rule('/log/create/', view_func=view, methods=['POST'])
+bp_log.add_url_rule('/log/create', view_func=view, methods=['POST'])
