@@ -66,5 +66,6 @@ class Pride(MethodView):
 
 
 view = Pride.as_view('pride')
-bp_pride.add_url_rule('/pride/', view_func=view, methods=['GET', 'POST'])
+bp_pride.add_url_rule('/pride/', view_func=view, methods=['GET'])
 bp_pride.add_url_rule('/pride/<id>/', view_func=view, methods=['GET', 'PUT'])
+bp_pride.add_url_rule('/pride/create/', view_func=view, methods=['GET', 'POST'])
